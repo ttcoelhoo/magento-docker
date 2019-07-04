@@ -54,7 +54,7 @@ docker run -t -i \
     -e CLONE_SSH_PASS=pass123 \
     -e CLONE_DB_NAME=staging \
     -e CLONE_MAGENTO_ROOT=/var/www/html \
-    magento-docker:2.2-php7.0
+    ttcoelho/magento-docker:2.2-php7.0
 ```
 
 
