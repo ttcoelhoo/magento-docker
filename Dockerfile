@@ -103,20 +103,9 @@ COPY --chown=magento:www-data . ./
 # composer auth keys to download magento
 COPY --chown=magento:www-data .docker/auth.json /home/magento/.composer/auth.json
 
-# create handy alias and made for magento bin executable for the user
-USER magento
-
-# cd /var/www/html && 
-RUN chmod u+x bin/magento; \
-    echo "alias magento='php /var/www/html/bin/magento'" >> ~/.bash_aliases; \
-    echo "alias gulp='~/.npm-global/lib/node_modules/gulp-cli/bin/gulp.js'" >> ~/.bash_aliases; \
-    /bin/bash -c "source ~/.bash_aliases"
-
-# back to root
-USER root
-
 # apply recommended magento file permissions
-RUN find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +; \
+RUN mkdir -p var generated vendor pub/static pub/media app/etc; \
+    find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +; \
     find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
 
 # ssl and database ports
