@@ -37,7 +37,4 @@ cd /var/www/html/vendor/snowdog/frontools
 /home/magento/.npm-global/lib/node_modules/gulp-cli/bin/gulp.js setup
 /home/magento/.npm-global/lib/node_modules/gulp-cli/bin/gulp.js styles
 /home/magento/.npm-global/lib/node_modules/gulp-cli/bin/gulp.js babel
-
-# fix possible file permisisons and disable maintenance
-chown -R magento:www-data /var/www/html
 php /var/www/html/bin/magento maintenance:disable

@@ -98,6 +98,9 @@ chown magento:www-data /var/www/html/app/etc/env.php
 # magento deploy
 su -c 'bash /deploy.sh' - magento
 
+# fix possible file permisisons and disable maintenance
+chown -R magento:www-data /var/www/html
+
 # make it run forever
 printf "\nit's running...\n"
 while true; do sleep 1; done
