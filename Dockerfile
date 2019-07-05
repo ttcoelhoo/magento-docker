@@ -96,6 +96,8 @@ COPY .docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
 COPY .docker/mysql.cnf /etc/mysql/mariadb.conf.d/
 # run script
 COPY .docker/run.sh /run.sh
+# magento deploy script
+COPY .docker/deploy.sh /deploy.sh
 # composer auth keys to download magento
 COPY --chown=magento:www-data .docker/auth.json /home/magento/.composer/auth.json
 

@@ -96,7 +96,7 @@ php bin/magento setup:install --base-url="https://$SERVER_NAME/" \
 chown magento:www-data /var/www/html/app/etc/env.php
 
 # magento deploy
-su -c 'bash /var/www/html/.docker/deploy.sh' - magento
+su -c 'bash /deploy.sh' - magento
 
 # make it run forever
 printf "\nit's running...\n"
