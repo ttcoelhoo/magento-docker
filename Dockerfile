@@ -94,14 +94,15 @@ COPY .docker/php.ini /usr/local/etc/php
 COPY .docker/apache.conf /etc/apache2/sites-enabled/000-default.conf
 # mysql conf
 COPY .docker/mysql.cnf /etc/mysql/mariadb.conf.d/
-# database optimiser
-COPY .docker/optimiser.sql /optimiser.sql
 # run script
 COPY .docker/run.sh /run.sh
 # magento project files
 COPY --chown=magento:www-data . ./
 # composer auth keys to download magento
 COPY --chown=magento:www-data .docker/auth.json /home/magento/.composer/auth.json
+
+# create sql scripts entrypoint
+RUN mkdir -p /docker-entrypoint-initdb.d
 
 # apply recommended magento file permissions
 RUN mkdir -p var generated vendor pub/static pub/media app/etc; \

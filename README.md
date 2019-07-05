@@ -12,31 +12,31 @@ Put your Magento project files directly on the root.
 
 You need to set these vars:
 
-##### SERVER_NAME
+**SERVER_NAME**
 The apache server name that will also be used for the base url eg www.magento.docker 
 
-##### DB_NAME
+**DB_NAME**
 Database name
 
-##### DB_USER=magento2 
+**DB_USER=magento2**
 Database user
 
-##### DB_PASS=magento2 
+**DB_PASS=magento2**
 Database password
 
-##### PROVISIONING_SSH_HOST
+**PROVISIONING_SSH_HOST**
 Provisioning host
 
-##### PROVISIONING_SSH_USER
+**PROVISIONING_SSH_USER**
 Provisioning SSH user
 
-##### PROVISIONING_SSH_PASS
+**PROVISIONING_SSH_PASS**
 Provisioning SSH pass
 
-##### PROVISIONING_DB_NAME
+**PROVISIONING_DB_NAME**
 Provisioning DB name
 
-##### PROVISIONING_MAGENTO_ROOT
+**PROVISIONING_MAGENTO_ROOT**
 Provisioning DB name Magento file root eg. /var/www/html
 
 ## Docker Run example
@@ -49,11 +49,11 @@ docker run -t -i \
     -e DB_NAME=magento2 \
     -e DB_USER=magento2 \
     -e DB_PASS=magento2 \
-    -e CLONE_SSH_HOST=staging.magento2.net \
-    -e CLONE_SSH_USER=user \
-    -e CLONE_SSH_PASS=pass123 \
-    -e CLONE_DB_NAME=staging \
-    -e CLONE_MAGENTO_ROOT=/var/www/html \
+    -e PROVISIONING_SSH_HOST=staging.magento2.net \
+    -e PROVISIONING_SSH_USER=user \
+    -e PROVISIONING_SSH_PASS=pass123 \
+    -e PROVISIONING_DB_NAME=staging \
+    -e PROVISIONING_MAGENTO_ROOT=/var/www/html \
     ttcoelho/magento-docker:2.2-php7.0
 ```
 
@@ -67,3 +67,7 @@ It uses https only so port 80 is not exposed. This is because doesn't make sense
 ## Provisioning environment
 
 It demands having a provisioning environment from where you can clone database and media files via SSH, for instance can be the staging environment of your project. It's prepared for ssh through password, not keys unfortunately.
+
+## mariadb
+
+If **PROVISIONING_DB_NAME** var is not set the script won't search for the provisioning database. You can still add sql scripts by adding .sql or .sql.gz files to  /docker-entrypoint-initdb.d/

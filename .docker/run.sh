@@ -52,9 +52,9 @@ $PROVISIONING_SSH_USER@$PROVISIONING_SSH_HOST:$PROVISIONING_MAGENTO_ROOT/pub/med
 
 # create db and user if doesn't exists
 if ! [ -d "/var/lib/mysql/$DB_NAME" ] ; then 
-sshpass -p "$PROVISIONING_SSH_PASS" ssh -oStrictHostKeyChecking=no \
-$PROVISIONING_SSH_USER@$PROVISIONING_SSH_HOST "mysqldump $PROVISIONING_DB_NAME | gzip -9" > ~/db.sql.gz
-gunzip ~/db.sql.gz
+printf "\nlocal db doesn't exists "
+
+printf "\ncreate db and user "
 mysql -uroot <<-EOF
 CREATE USER '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';
 GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' WITH GRANT OPTION;
@@ -62,10 +62,24 @@ FLUSH PRIVILEGES;
 CREATE DATABASE $DB_NAME;
 EOF
 
-mysql -uroot $DB_NAME < ~/db.sql
-mysql -uroot $DB_NAME < /optimiser.sql
+if ! [ -z "${PROVISIONING_DB_NAME}" ]; then
+    printf "\ndump provisioning db and import..."
+    sshpass -p "$PROVISIONING_SSH_PASS" ssh -oStrictHostKeyChecking=no \
+    $PROVISIONING_SSH_USER@$PROVISIONING_SSH_HOST "mysqldump $PROVISIONING_DB_NAME | gzip -9" > /docker-entrypoint-initdb.d/provisioning-db.sql.gz
+fi
+#mysql -uroot $DB_NAME < /optimiser.sql
 
-#set magento base_url
+# search for mysql scripts. provisioning db should be first hence "ls -t"
+for f in `ls -t /docker-entrypoint-initdb.d/*`; do
+    case "$f" in
+        *.sql)    printf "\nrunning $f"; mysql -uroot $DB_NAME < "$f";;
+        *.sql.gz) printf "\nrunning $f"; gunzip -c "$f" | mysql -uroot $DB_NAME;;
+        *)        printf "\nignoring $f" ;;
+    esac
+    echo
+done
+
+# set magento base_url
 mysql -uroot <<-EOF
 USE $DB_NAME;
 UPDATE core_config_data SET value='https://$SERVER_NAME/' WHERE path IN ('web/unsecure/base_url', 'web/secure/base_url') LIMIT 2;
