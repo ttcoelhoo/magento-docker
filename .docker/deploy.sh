@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # create handy alias and made for magento bin executable for the user
-chmod u+x bin/magento; \
+chmod u+x /var/www/html/bin/magento; \
 echo "alias magento='php /var/www/html/bin/magento'" >> ~/.bash_aliases; \
 echo "alias gulp='~/.npm-global/lib/node_modules/gulp-cli/bin/gulp.js'" >> ~/.bash_aliases; \
 /bin/bash -c "source ~/.bash_aliases"

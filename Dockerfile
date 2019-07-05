@@ -81,7 +81,7 @@ RUN a2enmod \
 
 WORKDIR /var/www/html
 
-# remove welcome page set apache permissions and magento user
+# set permissions, ownership and add magento user
 RUN chgrp www-data /var/www/; \
     chmod g+s /var/www/; \
     adduser magento --gecos "Magento,1,2,3" --disabled-password; \
