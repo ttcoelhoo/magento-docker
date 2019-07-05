@@ -8,8 +8,15 @@ Depending on that you need to change your hosts file pointing the base url to lo
 
 Put your Magento project files directly on the root.
 
-## Environment Variables
+## Magento codebase
 
+You should copy your project files, just put on your dockerfile on top:
+
+```
+COPY --chown=magento:www-data . ./
+```
+
+## Environment Variables
 You need to set these vars:
 
 **SERVER_NAME**
